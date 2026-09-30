@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>EcoClasifica ♻️</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <main class="contenedor">
+
+        <!-- PANTALLA DE INICIO -->
+
+        <section id="inicio">
+
+            <div class="logo">♻️</div>
+
+            <h1>EcoClasifica</h1>
+
+            <p>
+                ¡Clasifica correctamente los residuos
+                y conviértete en un experto del reciclaje!
+            </p>
+
+            <div class="reglas">
+
+                <p>🟢 Reciclable → Material reutilizable</p>
+
+                <p>🔵 Electrónico → Aparato electrónico</p>
+
+                <p>⚫ Basura → Residuo común</p>
+
+            </div>
+
+            <button id="comenzar">
+                🎮 ¡Jugar!
+            </button>
+
+        </section>
+
+
+        <!-- JUEGO -->
+
+        <section id="juego" class="oculto">
+
+            <div class="informacion">
+
+                <div>
+                    ⭐
+                    <span id="puntos">0</span>
+                </div>
+
+                <div>
+                    ❤️
+                    <span id="vidas">3</span>
+                </div>
+
+                <div>
+                    ⏱️
+                    <span id="tiempo">30</span>
+                </div>
+
+            </div>
+
+
+            <div class="progreso">
+
+                <div id="barraProgreso"></div>
+
+            </div>
+
+
+            <div class="objeto">
+
+                <div id="emoji">
+                    📱
+                </div>
+
+                <h2 id="nombreObjeto">
+                    Celular
+                </h2>
+
+                <p>
+                    ¿Dónde debería ir?
+                </p>
+
+            </div>
+
+
+            <div class="categorias">
+
+                <button
+                    class="categoria reciclable"
+                    data-tipo="reciclable">
+
+                    🟢
+                    <span>Reciclable</span>
+
+                </button>
+
+
+                <button
+                    class="categoria electronico"
+                    data-tipo="electronico">
+
+                    🔵
+                    <span>Electrónico</span>
+
+                </button>
+
+
+                <button
+                    class="categoria basura"
+                    data-tipo="basura">
+
+                    ⚫
+                    <span>Basura común</span>
+
+                </button>
+
+            </div>
+
+
+            <div id="mensaje"></div>
+
+        </section>
+
+
+        <!-- PANTALLA FINAL -->
+
+        <section id="final" class="oculto">
+
+            <div class="trofeo">
+                🏆
+            </div>
+
+            <h1>¡Partida terminada!</h1>
+
+            <p>
+                Tu puntuación fue:
+            </p>
+
+            <div id="resultado">
+                0
+            </div>
+
+            <p id="mensajeFinal"></p>
+
+            <button id="reintentar">
+                🔄 Jugar nuevamente
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
