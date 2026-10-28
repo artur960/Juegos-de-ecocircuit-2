@@ -8,163 +8,304 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>EcoClasifica ♻️</title>
+    <title>E-WASTE: Operación Zero</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+          href="style.css">
 
 </head>
 
 <body>
 
-    <main class="contenedor">
+<div class="game">
 
-        <!-- PANTALLA DE INICIO -->
+    <!-- ============================= -->
+    <!-- PANTALLA PRINCIPAL -->
+    <!-- ============================= -->
 
-        <section id="inicio">
+    <section id="menu" class="screen">
 
-            <div class="logo">♻️</div>
+        <div class="logo">
+            ⚡♻️
+        </div>
 
-            <h1>EcoClasifica</h1>
+        <h1>E-WASTE</h1>
 
-            <p>
-                ¡Clasifica correctamente los residuos
-                y conviértete en un experto del reciclaje!
-            </p>
+        <h2>OPERACIÓN ZERO</h2>
 
-            <div class="reglas">
+        <p class="historia">
 
-                <p>🟢 Reciclable → Material reutilizable</p>
+            La ciudad está colapsando por la
+            basura electrónica.
 
-                <p>🔵 Electrónico → Aparato electrónico</p>
+            <br><br>
 
-                <p>⚫ Basura → Residuo común</p>
+            Tu misión es recuperar dispositivos,
+            evitar residuos peligrosos y
+            convertirte en el mejor EcoAgente.
 
-            </div>
+        </p>
 
-            <button id="comenzar">
-                🎮 ¡Jugar!
+        <button id="startButton">
+            🚀 INICIAR MISIÓN
+        </button>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- SELECCIÓN DE NIVEL -->
+    <!-- ============================= -->
+
+    <section id="niveles"
+             class="screen hidden">
+
+        <h1>SELECCIONA TU MISIÓN</h1>
+
+        <div class="levels">
+
+            <button class="level"
+                    data-level="1">
+
+                🌆
+
+                <strong>NIVEL 1</strong>
+
+                <small>
+                    Limpia las calles
+                </small>
+
             </button>
 
-        </section>
+
+            <button class="level locked"
+                    data-level="2">
+
+                📱
+
+                <strong>NIVEL 2</strong>
+
+                <small>
+                    Rescata dispositivos
+                </small>
+
+            </button>
 
 
-        <!-- JUEGO -->
+            <button class="level locked"
+                    data-level="3">
 
-        <section id="juego" class="oculto">
+                🔋
 
-            <div class="informacion">
+                <strong>NIVEL 3</strong>
 
-                <div>
-                    ⭐
-                    <span id="puntos">0</span>
-                </div>
+                <small>
+                    Zona de baterías
+                </small>
 
-                <div>
-                    ❤️
-                    <span id="vidas">3</span>
-                </div>
-
-                <div>
-                    ⏱️
-                    <span id="tiempo">30</span>
-                </div>
-
-            </div>
+            </button>
 
 
-            <div class="progreso">
+            <button class="level locked"
+                    data-level="4">
 
-                <div id="barraProgreso"></div>
+                💻
 
-            </div>
+                <strong>NIVEL 4</strong>
 
+                <small>
+                    Caos tecnológico
+                </small>
 
-            <div class="objeto">
-
-                <div id="emoji">
-                    📱
-                </div>
-
-                <h2 id="nombreObjeto">
-                    Celular
-                </h2>
-
-                <p>
-                    ¿Dónde debería ir?
-                </p>
-
-            </div>
+            </button>
 
 
-            <div class="categorias">
+            <button class="level locked"
+                    data-level="5">
 
-                <button
-                    class="categoria reciclable"
-                    data-tipo="reciclable">
+                ☢️
 
-                    🟢
-                    <span>Reciclable</span>
+                <strong>NIVEL 5</strong>
 
-                </button>
+                <small>
+                    Operación Zero
+                </small>
 
+            </button>
 
-                <button
-                    class="categoria electronico"
-                    data-tipo="electronico">
+        </div>
 
-                    🔵
-                    <span>Electrónico</span>
-
-                </button>
+    </section>
 
 
-                <button
-                    class="categoria basura"
-                    data-tipo="basura">
+    <!-- ============================= -->
+    <!-- JUEGO -->
+    <!-- ============================= -->
 
-                    ⚫
-                    <span>Basura común</span>
+    <section id="gameScreen"
+             class="screen hidden">
 
-                </button>
+        <div class="topBar">
 
-            </div>
-
-
-            <div id="mensaje"></div>
-
-        </section>
-
-
-        <!-- PANTALLA FINAL -->
-
-        <section id="final" class="oculto">
-
-            <div class="trofeo">
+            <div>
                 🏆
+                <span id="score">0</span>
             </div>
 
-            <h1>¡Partida terminada!</h1>
-
-            <p>
-                Tu puntuación fue:
-            </p>
-
-            <div id="resultado">
-                0
+            <div>
+                ❤️
+                <span id="lives">3</span>
             </div>
 
-            <p id="mensajeFinal"></p>
+            <div>
+                ⏱️
+                <span id="time">30</span>
+            </div>
 
-            <button id="reintentar">
-                🔄 Jugar nuevamente
+            <div>
+                NIVEL
+                <span id="levelNumber">1</span>
+            </div>
+
+        </div>
+
+
+        <div class="progress">
+
+            <div id="progressBar"></div>
+
+        </div>
+
+
+        <div id="gameArea">
+
+            <div id="player">
+
+                🧑‍💻
+
+            </div>
+
+        </div>
+
+
+        <div class="controls">
+
+            <button id="leftButton">
+                ◀
             </button>
 
-        </section>
+            <button id="rightButton">
+                ▶
+            </button>
 
-    </main>
+        </div>
 
 
-    <script src="script.js"></script>
+        <div id="message">
+
+            ¡Comienza la misión!
+
+        </div>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- NIVEL COMPLETADO -->
+    <!-- ============================= -->
+
+    <section id="levelComplete"
+             class="screen hidden">
+
+        <div class="bigEmoji">
+            🔥
+        </div>
+
+        <h1>
+            ¡NIVEL COMPLETADO!
+        </h1>
+
+        <p>
+            Has demostrado que eres
+            un verdadero EcoAgente.
+        </p>
+
+        <div id="levelScore">
+            +100 XP
+        </div>
+
+        <button id="nextLevel">
+            🚀 SIGUIENTE NIVEL
+        </button>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- GAME OVER -->
+    <!-- ============================= -->
+
+    <section id="gameOver"
+             class="screen hidden">
+
+        <div class="bigEmoji">
+            💀
+        </div>
+
+        <h1>
+            MISIÓN FALLIDA
+        </h1>
+
+        <p>
+            La basura electrónica
+            ganó esta batalla...
+        </p>
+
+        <div id="finalScore">
+            0
+        </div>
+
+        <button id="retry">
+            🔄 INTENTAR DE NUEVO
+        </button>
+
+    </section>
+
+
+    <!-- ============================= -->
+    <!-- VICTORIA -->
+    <!-- ============================= -->
+
+    <section id="victory"
+             class="screen hidden">
+
+        <div class="bigEmoji">
+            🏆
+        </div>
+
+        <h1>
+            ¡OPERACIÓN ZERO COMPLETADA!
+        </h1>
+
+        <p>
+            ¡Has salvado la ciudad
+            de la basura electrónica!
+        </p>
+
+        <div id="victoryScore">
+            0
+        </div>
+
+        <button id="restart">
+            🔥 JUGAR DE NUEVO
+        </button>
+
+    </section>
+
+</div>
+
+
+<script src="script.js"></script>
 
 </body>
 

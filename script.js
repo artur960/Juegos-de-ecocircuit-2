@@ -1,420 +1,980 @@
-// ======================================
-// ECOCLASIFICA
-// ======================================
+// ==========================================
+// E-WASTE: OPERACIÓN ZERO
+// ==========================================
 
 
-// Objetos del juego
+// ELEMENTOS
 
-const objetos = [
+const menu =
+    document.getElementById("menu");
+
+const niveles =
+    document.getElementById("niveles");
+
+const gameScreen =
+    document.getElementById("gameScreen");
+
+const levelComplete =
+    document.getElementById(
+        "levelComplete"
+    );
+
+const gameOver =
+    document.getElementById(
+        "gameOver"
+    );
+
+const victory =
+    document.getElementById(
+        "victory"
+    );
+
+
+const gameArea =
+    document.getElementById(
+        "gameArea"
+    );
+
+
+const player =
+    document.getElementById(
+        "player"
+    );
+
+
+const scoreText =
+    document.getElementById(
+        "score"
+    );
+
+
+const livesText =
+    document.getElementById(
+        "lives"
+    );
+
+
+const timeText =
+    document.getElementById(
+        "time"
+    );
+
+
+const levelText =
+    document.getElementById(
+        "levelNumber"
+    );
+
+
+const progressBar =
+    document.getElementById(
+        "progressBar"
+    );
+
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+
+// ==========================================
+// VARIABLES
+// ==========================================
+
+let score = 0;
+
+let lives = 3;
+
+let time = 30;
+
+let currentLevel = 1;
+
+let playerPosition = 50;
+
+let playing = false;
+
+let timer;
+
+let spawner;
+
+let requiredScore = 100;
+
+
+// ==========================================
+// CONFIGURACIÓN DE NIVELES
+// ==========================================
+
+const levelsConfig = {
+
+    1: {
+        time: 30,
+        goal: 100,
+        speed: 2,
+        spawn: 900
+    },
+
+    2: {
+        time: 30,
+        goal: 180,
+        speed: 3,
+        spawn: 750
+    },
+
+    3: {
+        time: 35,
+        goal: 280,
+        speed: 3.5,
+        spawn: 650
+    },
+
+    4: {
+        time: 40,
+        goal: 400,
+        speed: 4,
+        spawn: 550
+    },
+
+    5: {
+        time: 45,
+        goal: 550,
+        speed: 5,
+        spawn: 450
+    }
+
+};
+
+
+// ==========================================
+// OBJETOS
+// ==========================================
+
+const objects = [
 
     {
         emoji: "📱",
-        nombre: "Celular",
-        tipo: "electronico"
+        points: 10,
+        dangerous: false
     },
 
     {
         emoji: "💻",
-        nombre: "Computadora",
-        tipo: "electronico"
-    },
-
-    {
-        emoji: "🔋",
-        nombre: "Batería",
-        tipo: "electronico"
+        points: 20,
+        dangerous: false
     },
 
     {
         emoji: "🖥️",
-        nombre: "Monitor",
-        tipo: "electronico"
+        points: 20,
+        dangerous: false
     },
 
     {
-        emoji: "🥤",
-        nombre: "Botella plástica",
-        tipo: "reciclable"
+        emoji: "🎧",
+        points: 15,
+        dangerous: false
     },
 
     {
-        emoji: "📦",
-        nombre: "Caja de cartón",
-        tipo: "reciclable"
+        emoji: "🔌",
+        points: 10,
+        dangerous: false
     },
 
     {
-        emoji: "🥫",
-        nombre: "Lata",
-        tipo: "reciclable"
+        emoji: "🔋",
+        points: 30,
+        dangerous: false
     },
 
     {
-        emoji: "📰",
-        nombre: "Periódico",
-        tipo: "reciclable"
+        emoji: "⌨️",
+        points: 15,
+        dangerous: false
     },
 
     {
-        emoji: "🍌",
-        nombre: "Cáscara de banana",
-        tipo: "basura"
+        emoji: "🖱️",
+        points: 15,
+        dangerous: false
     },
 
     {
-        emoji: "🧻",
-        nombre: "Papel sanitario usado",
-        tipo: "basura"
+        emoji: "☢️",
+        points: 0,
+        dangerous: true
     },
 
     {
-        emoji: "🍬",
-        nombre: "Envoltorio sucio",
-        tipo: "basura"
-    },
-
-    {
-        emoji: "☕",
-        nombre: "Vaso desechable sucio",
-        tipo: "basura"
+        emoji: "💣",
+        points: 0,
+        dangerous: true
     }
 
 ];
 
 
-// Variables
+// ==========================================
+// BOTÓN INICIO
+// ==========================================
 
-let puntos = 0;
+document
+    .getElementById("startButton")
+    .addEventListener(
+        "click",
+        () => {
 
-let vidas = 3;
+            menu.classList.add(
+                "hidden"
+            );
 
-let tiempo = 30;
+            niveles.classList.remove(
+                "hidden"
+            );
 
-let objetoActual;
-
-let temporizador;
-
-let jugando = false;
-
-
-// Elementos HTML
-
-const inicio =
-    document.getElementById("inicio");
-
-const juego =
-    document.getElementById("juego");
-
-const final =
-    document.getElementById("final");
-
-const comenzar =
-    document.getElementById("comenzar");
-
-const reintentar =
-    document.getElementById("reintentar");
-
-const emoji =
-    document.getElementById("emoji");
-
-const nombreObjeto =
-    document.getElementById("nombreObjeto");
-
-const puntosTexto =
-    document.getElementById("puntos");
-
-const vidasTexto =
-    document.getElementById("vidas");
-
-const tiempoTexto =
-    document.getElementById("tiempo");
-
-const mensaje =
-    document.getElementById("mensaje");
-
-const resultado =
-    document.getElementById("resultado");
-
-const mensajeFinal =
-    document.getElementById("mensajeFinal");
-
-const barraProgreso =
-    document.getElementById("barraProgreso");
-
-const botonesCategoria =
-    document.querySelectorAll(".categoria");
+        }
+    );
 
 
-// ======================================
-// COMENZAR JUEGO
-// ======================================
+// ==========================================
+// SELECCIONAR NIVEL
+// ==========================================
 
-comenzar.addEventListener(
-    "click",
-    iniciarJuego
-);
+document
+    .querySelectorAll(".level")
+    .forEach(
+        button => {
 
+            button.addEventListener(
+                "click",
+                () => {
 
-reintentar.addEventListener(
-    "click",
-    iniciarJuego
-);
-
-
-function iniciarJuego() {
-
-    puntos = 0;
-
-    vidas = 3;
-
-    tiempo = 30;
-
-    jugando = true;
+                    const level =
+                        Number(
+                            button.dataset.level
+                        );
 
 
-    inicio.classList.add("oculto");
+                    if (
+                        button.classList
+                            .contains("locked")
+                    ) {
 
-    final.classList.add("oculto");
+                        return;
 
-    juego.classList.remove("oculto");
-
-
-    puntosTexto.textContent =
-        puntos;
-
-    vidasTexto.textContent =
-        vidas;
-
-    tiempoTexto.textContent =
-        tiempo;
+                    }
 
 
-    barraProgreso.style.width =
+                    currentLevel =
+                        level;
+
+
+                    startLevel();
+
+                }
+            );
+
+        }
+    );
+
+
+// ==========================================
+// INICIAR NIVEL
+// ==========================================
+
+function startLevel() {
+
+    const config =
+        levelsConfig[
+            currentLevel
+        ];
+
+
+    score = 0;
+
+    lives = 3;
+
+    time =
+        config.time;
+
+    requiredScore =
+        config.goal;
+
+    playerPosition = 50;
+
+    playing = true;
+
+
+    niveles.classList.add(
+        "hidden"
+    );
+
+    levelComplete.classList.add(
+        "hidden"
+    );
+
+    gameOver.classList.add(
+        "hidden"
+    );
+
+    gameScreen.classList.remove(
+        "hidden"
+    );
+
+
+    scoreText.textContent =
+        score;
+
+    livesText.textContent =
+        lives;
+
+    timeText.textContent =
+        time;
+
+    levelText.textContent =
+        currentLevel;
+
+
+    progressBar.style.width =
         "100%";
 
 
-    mensaje.textContent =
-        "¡Clasifica correctamente!";
+    player.style.left =
+        playerPosition + "%";
 
 
-    clearInterval(temporizador);
+    message.textContent =
+        "⚡ ¡Misión iniciada!";
 
 
-    mostrarObjeto();
+    clearInterval(timer);
+
+    clearInterval(spawner);
 
 
-    iniciarTemporizador();
-
-}
-
-
-// ======================================
-// MOSTRAR OBJETO
-// ======================================
-
-function mostrarObjeto() {
-
-    const indice =
-        Math.floor(
-            Math.random() *
-            objetos.length
+    timer =
+        setInterval(
+            updateTimer,
+            1000
         );
 
 
-    objetoActual =
-        objetos[indice];
-
-
-    emoji.textContent =
-        objetoActual.emoji;
-
-
-    nombreObjeto.textContent =
-        objetoActual.nombre;
+    spawner =
+        setInterval(
+            createObject,
+            config.spawn
+        );
 
 }
 
 
-// ======================================
+// ==========================================
 // TEMPORIZADOR
-// ======================================
+// ==========================================
 
-function iniciarTemporizador() {
+function updateTimer() {
 
-    temporizador =
-        setInterval(function() {
+    if (!playing) {
 
-            tiempo--;
+        return;
 
-            tiempoTexto.textContent =
-                tiempo;
+    }
 
 
-            const porcentaje =
-                (tiempo / 30) * 100;
+    time--;
 
 
-            barraProgreso.style.width =
-                porcentaje + "%";
+    timeText.textContent =
+        time;
 
 
-            if (tiempo <= 0) {
+    const percentage =
+        (time /
+        levelsConfig[currentLevel].time)
+        * 100;
 
-                terminarJuego();
 
-            }
+    progressBar.style.width =
+        percentage + "%";
 
-        }, 1000);
+
+    if (time <= 0) {
+
+        checkLevel();
+
+    }
 
 }
 
 
-// ======================================
-// SELECCIONAR CATEGORÍA
-// ======================================
+// ==========================================
+// MOVER JUGADOR
+// ==========================================
 
-botonesCategoria.forEach(
-    function(boton) {
+function moveLeft() {
 
-        boton.addEventListener(
-            "click",
-            function() {
+    if (!playing) {
 
-                clasificar(
-                    boton.dataset.tipo
-                );
+        return;
 
-            }
-        );
+    }
+
+
+    playerPosition -= 8;
+
+
+    if (playerPosition < 8) {
+
+        playerPosition = 8;
+
+    }
+
+
+    player.style.left =
+        playerPosition + "%";
+
+}
+
+
+function moveRight() {
+
+    if (!playing) {
+
+        return;
+
+    }
+
+
+    playerPosition += 8;
+
+
+    if (playerPosition > 92) {
+
+        playerPosition = 92;
+
+    }
+
+
+    player.style.left =
+        playerPosition + "%";
+
+}
+
+
+document
+    .getElementById("leftButton")
+    .addEventListener(
+        "click",
+        moveLeft
+    );
+
+
+document
+    .getElementById("rightButton")
+    .addEventListener(
+        "click",
+        moveRight
+    );
+
+
+// ==========================================
+// TECLADO
+// ==========================================
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "ArrowLeft"
+        ) {
+
+            moveLeft();
+
+        }
+
+
+        if (
+            event.key === "ArrowRight"
+        ) {
+
+            moveRight();
+
+        }
 
     }
 );
 
 
-// ======================================
-// CLASIFICAR
-// ======================================
+// ==========================================
+// CREAR OBJETO
+// ==========================================
 
-function clasificar(tipoSeleccionado) {
+function createObject() {
 
-    if (!jugando) {
+    if (!playing) {
 
         return;
 
     }
+
+
+    const item =
+        document.createElement(
+            "div"
+        );
+
+
+    item.classList.add(
+        "item"
+    );
+
+
+    const random =
+        Math.floor(
+            Math.random() *
+            objects.length
+        );
+
+
+    const data =
+        objects[random];
+
+
+    item.textContent =
+        data.emoji;
+
+
+    item.dataset.points =
+        data.points;
+
+
+    item.dataset.dangerous =
+        data.dangerous;
+
+
+    item.style.left =
+        (
+            Math.random() *
+            90 +
+            5
+        ) + "%";
+
+
+    item.style.top =
+        "-60px";
+
+
+    gameArea.appendChild(
+        item
+    );
+
+
+    dropObject(item);
+
+}
+
+
+// ==========================================
+// CAER OBJETO
+// ==========================================
+
+function dropObject(item) {
+
+    let positionY = -60;
+
+
+    const speed =
+        levelsConfig[
+            currentLevel
+        ].speed;
+
+
+    const movement =
+        setInterval(
+            () => {
+
+                if (!playing) {
+
+                    clearInterval(
+                        movement
+                    );
+
+                    item.remove();
+
+                    return;
+
+                }
+
+
+                positionY += speed;
+
+
+                item.style.top =
+                    positionY + "px";
+
+
+                checkCollision(
+                    item,
+                    movement
+                );
+
+
+                if (
+                    positionY >
+                    gameArea.clientHeight
+                ) {
+
+                    clearInterval(
+                        movement
+                    );
+
+                    item.remove();
+
+                }
+
+            },
+            20
+        );
+
+}
+
+
+// ==========================================
+// COLISIONES
+// ==========================================
+
+function checkCollision(
+    item,
+    movement
+) {
+
+    const playerRect =
+        player.getBoundingClientRect();
+
+
+    const itemRect =
+        item.getBoundingClientRect();
+
+
+    const collision =
+
+        playerRect.left <
+        itemRect.right &&
+
+        playerRect.right >
+        itemRect.left &&
+
+        playerRect.top <
+        itemRect.bottom &&
+
+        playerRect.bottom >
+        itemRect.top;
+
+
+    if (!collision) {
+
+        return;
+
+    }
+
+
+    clearInterval(
+        movement
+    );
+
+
+    const dangerous =
+        item.dataset.dangerous
+        === "true";
+
+
+    if (dangerous) {
+
+        lives--;
+
+        livesText.textContent =
+            lives;
+
+
+        message.textContent =
+            "💥 ¡Cuidado! Residuo peligroso";
+
+
+        if (lives <= 0) {
+
+            endGame();
+
+        }
+
+    }
+
+    else {
+
+        const points =
+            Number(
+                item.dataset.points
+            );
+
+
+        score += points;
+
+
+        scoreText.textContent =
+            score;
+
+
+        message.textContent =
+            "⚡ +" +
+            points +
+            " XP";
+
+
+        if (
+            score >= requiredScore
+        ) {
+
+            checkLevel();
+
+        }
+
+    }
+
+
+    item.remove();
+
+}
+
+
+// ==========================================
+// COMPROBAR NIVEL
+// ==========================================
+
+function checkLevel() {
+
+    if (!playing) {
+
+        return;
+
+    }
+
+
+    playing = false;
+
+
+    clearInterval(timer);
+
+    clearInterval(spawner);
 
 
     if (
-        tipoSeleccionado ===
-        objetoActual.tipo
+        score >= requiredScore
     ) {
 
-        // RESPUESTA CORRECTA
-
-        puntos += 10;
-
-        puntosTexto.textContent =
-            puntos;
-
-        mensaje.textContent =
-            "✅ ¡Correcto! +10 puntos";
+        completeLevel();
 
     }
 
     else {
 
-        // RESPUESTA INCORRECTA
-
-        vidas--;
-
-        vidasTexto.textContent =
-            vidas;
-
-        mensaje.textContent =
-            "❌ Incorrecto. ¡Cuidado!";
+        endGame();
 
     }
 
+}
 
-    if (vidas <= 0) {
 
-        terminarJuego();
+// ==========================================
+// COMPLETAR NIVEL
+// ==========================================
+
+function completeLevel() {
+
+    gameScreen.classList.add(
+        "hidden"
+    );
+
+
+    levelComplete.classList.remove(
+        "hidden"
+    );
+
+
+    document.getElementById(
+        "levelScore"
+    ).textContent =
+        "+" +
+        score +
+        " XP";
+
+
+    unlockNextLevel();
+
+}
+
+
+// ==========================================
+// DESBLOQUEAR NIVEL
+// ==========================================
+
+function unlockNextLevel() {
+
+    const next =
+        currentLevel + 1;
+
+
+    if (next > 5) {
 
         return;
 
     }
 
 
-    // Esperar un momento
-    // antes del siguiente objeto
+    const nextButton =
+        document.querySelector(
+            `[data-level="${next}"]`
+        );
 
-    setTimeout(
-        function() {
 
-            if (jugando) {
+    if (nextButton) {
 
-                mostrarObjeto();
+        nextButton.classList.remove(
+            "locked"
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// SIGUIENTE NIVEL
+// ==========================================
+
+document
+    .getElementById("nextLevel")
+    .addEventListener(
+        "click",
+        () => {
+
+            if (
+                currentLevel >= 5
+            ) {
+
+                showVictory();
 
             }
 
-        },
-        500
+            else {
+
+                currentLevel++;
+
+                startLevel();
+
+            }
+
+        }
     );
+
+
+// ==========================================
+// GAME OVER
+// ==========================================
+
+function endGame() {
+
+    playing = false;
+
+
+    clearInterval(timer);
+
+    clearInterval(spawner);
+
+
+    document
+        .querySelectorAll(".item")
+        .forEach(
+            item => item.remove()
+        );
+
+
+    gameScreen.classList.add(
+        "hidden"
+    );
+
+
+    gameOver.classList.remove(
+        "hidden"
+    );
+
+
+    document.getElementById(
+        "finalScore"
+    ).textContent =
+        score +
+        " XP";
 
 }
 
 
-// ======================================
-// TERMINAR JUEGO
-// ======================================
+// ==========================================
+// REINTENTAR
+// ==========================================
 
-function terminarJuego() {
+document
+    .getElementById("retry")
+    .addEventListener(
+        "click",
+        () => {
 
-    jugando = false;
+            startLevel();
 
-    clearInterval(temporizador);
-
-
-    juego.classList.add(
-        "oculto"
+        }
     );
 
 
-    final.classList.remove(
-        "oculto"
+// ==========================================
+// VICTORIA
+// ==========================================
+
+function showVictory() {
+
+    levelComplete.classList.add(
+        "hidden"
     );
 
 
-    resultado.textContent =
-        puntos;
+    victory.classList.remove(
+        "hidden"
+    );
 
 
-    if (puntos >= 100) {
-
-        mensajeFinal.textContent =
-            "🏆 ¡Increíble! ¡Eres un maestro del reciclaje!";
-
-    }
-
-    else if (puntos >= 70) {
-
-        mensajeFinal.textContent =
-            "🌱 ¡Excelente! Tienes muy buenos conocimientos.";
-
-    }
-
-    else if (puntos >= 40) {
-
-        mensajeFinal.textContent =
-            "👍 ¡Muy bien! Sigue aprendiendo.";
-
-    }
-
-    else {
-
-        mensajeFinal.textContent =
-            "📚 ¡Buen intento! Ahora sabes más sobre reciclaje.";
-
-    }
+    document.getElementById(
+        "victoryScore"
+    ).textContent =
+        score +
+        " XP";
 
 }
+
+
+// ==========================================
+// REINICIAR
+// ==========================================
+
+document
+    .getElementById("restart")
+    .addEventListener(
+        "click",
+        () => {
+
+            victory.classList.add(
+                "hidden"
+            );
+
+            niveles.classList.remove(
+                "hidden"
+            );
+
+        }
+    );
